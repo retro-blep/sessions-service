@@ -4,7 +4,7 @@ import { StatusCodes } from "http-status-codes";
 import { logger } from "../lib/logger";
 import { Get, JsonController, Post, Body, HttpCode, BadRequestError } from "routing-controllers";
 import { prefixedLogger } from "../lib/Helper";
-import * as bodyParser from "body-parser";
+import { CreateSessionDto } from "./dto/CreateSessionDto";
 
 @JsonController('/')
 // @UseBefore(bodyParser.urlencoded({ extended: true }), bodyParser.json())
@@ -27,13 +27,8 @@ export class SessionController {
   @Post("sessions")
   @HttpCode(StatusCodes.CREATED)
   public async postSession(
-    @Body() body: any
+    @Body() body: CreateSessionDto
   ): Promise<any | void> {
-    
-    if (!body.name) {
-      this.log.warn({ body }, "Missing 'name' in request body");
-      throw new BadRequestError("name is required");
-    }
     try {
       const session = await this.sessionService.createSession(body);
       this.log.info({ sessionId: session.id }, "Session created");

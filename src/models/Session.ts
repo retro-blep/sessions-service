@@ -5,43 +5,42 @@ import { Participants } from "./Participants";
 
 @Entity()
 export class Session {
-  @ObjectIdColumn()
-  public _id?: ObjectId | string;
+ @ObjectIdColumn()
+  public _id?: ObjectId;
 
   @Column()
-  public id?: string;
+  public id!: string; // UUID used in APIs
 
-  @Column()
+  @Column({ nullable: true })
   public roomCode?: string;
 
-  @Column()
+  @Column({ nullable: true })
   public subName?: string;
 
-  // locked? active? archived?
-  @Column()
+  @Column({ nullable: true })
   public status?: string;
 
-  @Column()
+  @Column({ nullable: true })
   public columns?: Columns[];
 
-  @Column()
+  @Column({ nullable: true })
   public settings?: SessionSettings;
 
   @Column()
-  public name?: string;
+  public name!: string;
 
   @Column()
-  public createdAt?: Date;
+  public createdAt!: Date;
 
   @Column()
-  public updatedAt?: Date;
+  public updatedAt!: Date;
 
-  @Column()
+  @Column({ nullable: true })
   public archivedAt?: Date;
 
-  @Column()
+  @Column({ nullable: true })
   public lockedAt?: Date;
 
-  @Column()
+  @Column({ nullable: true })
   public participants?: Participants[];
 }

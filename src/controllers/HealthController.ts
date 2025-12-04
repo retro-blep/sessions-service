@@ -16,7 +16,7 @@ export class HealthController {
     constructor(
         private dataSource: DataSource,
     ) {
-        this.sessionRepo = this.dataSource.getRepository(Session);
+        this.sessionRepo = this.dataSource.getMongoRepository(Session);
     }
 
     @Get('/')

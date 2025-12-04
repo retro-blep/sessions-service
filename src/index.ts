@@ -1,3 +1,4 @@
+import "reflect-metadata";
 import express from "express";
 import { Container } from "typedi";
 import { useContainer, createExpressServer, useExpressServer } from "routing-controllers";
@@ -8,7 +9,6 @@ import cors from "cors";
 import { env } from "./env";
 // import sessionRoutes from "./routes/sessionRoutes";
 import { logger } from "./lib/logger";
-import { connectMongo } from "./config/mongo";
 import { Application } from "express";
 import { initializeDatabase } from "./loaders/dbLoader";
 import { DatabaseManager } from "./loaders/DatabaseManager";
@@ -57,7 +57,6 @@ process.on("uncaughtException", (error: Error) => {
 // app.use("/sessions", sessionRoutes);
 
 const start = async () => {
-  await connectMongo();
 
   app.listen(env.port, () => {
     logger.info(`Sessions service listening on port ${env.port}`);

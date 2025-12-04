@@ -19,17 +19,20 @@ export class SessionService {
   }
 
   public async createSession(body: any): Promise<Session | any> {
-    
-    // this.log.info(`createSession :: Creating session with name: ${name}`);
-    const session: Session = {
-      ...body as Session,
-      _id: randomUUID(),
-      settings: {
-        psswd: body.settings?.psswd ? await hashPassword(body.settings.psswd) : undefined,
 
-       },
-      createdAt: new Date(),
-      updatedAt: new Date(),
+    // this.log.info(`createSession :: Creating session with name: ${name}`);
+    const now = new Date();
+    const session: Session = {
+      ...(body as Session),
+      id: randomUUID(),
+      settings: body.settings
+        ? {
+          ...body.settings,
+          psswd: body.settings.psswd ? await hashPassword(body.settings.psswd) : undefined,
+        }
+        : undefined,
+      createdAt: now,
+      updatedAt: now,
     };
     const sessionSave = this.sessionRepo.create(session);
     return await this.sessionRepo.save(sessionSave);
@@ -37,12 +40,12 @@ export class SessionService {
 
   public async getSessionById(id: string): Promise<Session | any> {
     this.log.info("getSessionById :: Fetching session with id:", id);
-    return await this.sessionRepo.find({ where: { id } });
+    return await this.sessionRepo.findOneBy({ id });
   };
 
   public async updateSessionName(id: string, name: string): Promise<Session | any> {
     this.log.info("updateSessionName :: Updating session with id:", id);
-    return await this.sessionRepo.updateOne({ where: { id } }, { $set: { name } })
+    return await this.sessionRepo.update({ id }, { name, updatedAt: new Date() });
   };
 
   // REMEMBER: make a delete sessions function later ya? maybe archive it or something
@@ -51,7 +54,7 @@ export class SessionService {
     this.log.info("listSessions :: Listing all sessions");
     const sessions = await this.sessionRepo.find({
       where: filter,
-      order: { createdAt: -1 }
+      order: { createdAt: "DESC" }
     });
     logger.info({ count: (sessions).length }, "Listing sessions");
     return sessions;

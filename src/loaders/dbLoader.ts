@@ -18,7 +18,6 @@ export const initializeDatabase = async (): Promise<void> => {
             migrationsRun:env.db.runMigrations,
             dropSchema: env.db.dropSchema,
             port: env.db.port,
-            useUnifiedTopology: true, 
             entities: env.dirs.entities, 
             name: 'default',
             },
