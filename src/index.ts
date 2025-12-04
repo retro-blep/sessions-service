@@ -26,7 +26,7 @@ await initializeDatabase();
     Container.set(DataSource, ds);
     logger.info('📚 Container registration worked! 📚 Connected to MongoDB - yippeeee 📚')
   } catch (err) {
-    logger.error({ err }, "Failed to register DataSource in Container");
+    logger.error({ err }, " ❌ Failed to register DataSource in Container ❌ ");
     throw err;
   }
 
