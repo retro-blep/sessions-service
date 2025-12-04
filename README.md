@@ -1,10 +1,18 @@
 # sessions-service
-***tl;dr, backend for a retro type tool thing, agile stuff.***
+## ***tl;dr, backend for a retro type tool thing, agile stuff.***
+
+###### The idea with this tool is there **will be no** way of identifying a user, at least that's how it should be. A retro tool should allow complete anonymity for the user in order to allow them to really go through a retro peace and honesty. That's the freaking point after all. 
+
+###### .. With that said, there _will_ be ways to somewhat identify a user's system. This is purely for admininistration type shit, ban users, time someone out, prevent abuse, the works.
+
+###### Alongside that, i'm playing with the idea of a quick and dirty account creation thing, wherein: user wants, account? just add a password. i don't really care if they verify their emails, tf do i need those for?? it's a tool, like a screwdriver or a paint brush, not a library card.
+
 
 The **Sessions Service** is a standalone backend microservice responsible for managing retrospective session data.  
-It is part of the larger **Retro** tool and is designed to run independently or within a multi-service setup.
+it's part of the larger **Retro** tool and is designed to run independently or within a multi-service setup.
 
 Built with **Node.js + TypeScript + magic sauce**, it follows best practices for portability, containerization, and future Kubernetes deployment.
+
 
 ---
 
@@ -61,7 +69,7 @@ npm install
 ```
 ### 2. Configure environment variables
 
-Create a .env file in the project root:
+Create a `.env` file in the project root:
 ```
 PORT=4001
 MONGO_URL=mongodb://localhost:27017/retro_sessions
