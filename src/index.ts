@@ -1,15 +1,12 @@
 import "reflect-metadata";
 import express from "express";
 import { Container } from "typedi";
-import { useContainer, createExpressServer, useExpressServer } from "routing-controllers";
+import { useContainer, useExpressServer } from "routing-controllers";
 import { DataSource } from "typeorm";
 import { SessionController } from "./controllers/SessionController";
 import { HealthController } from "./controllers/HealthController";
-import cors from "cors";
 import { env } from "./env";
-// import sessionRoutes from "./routes/sessionRoutes";
 import { logger } from "./lib/logger";
-import { Application } from "express";
 import { initializeDatabase } from "./loaders/dbLoader";
 import { DatabaseManager } from "./loaders/DatabaseManager";
 
@@ -27,6 +24,7 @@ await initializeDatabase();
   try {
     const ds: DataSource = DatabaseManager.getConnection(); // default name
     Container.set(DataSource, ds);
+    logger.info('📚 Container registration worked! 📚 Connected to MongoDB - yippeeee 📚')
   } catch (err) {
     logger.error({ err }, "Failed to register DataSource in Container");
     throw err;

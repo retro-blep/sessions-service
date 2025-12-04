@@ -4,7 +4,7 @@ import { StatusCodes } from "http-status-codes";
 import { logger } from "../lib/logger";
 import { Get, JsonController, Post, Body, HttpCode, BadRequestError } from "routing-controllers";
 import { prefixedLogger } from "../lib/Helper";
-import { CreateSessionDto } from "./dto/CreateSessionDto";
+import { CreateSessionDto } from "../models/dto/CreateSessionDto";
 
 @JsonController('/')
 // @UseBefore(bodyParser.urlencoded({ extended: true }), bodyParser.json())
