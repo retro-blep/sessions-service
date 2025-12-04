@@ -25,7 +25,6 @@ Built with **Node.js + TypeScript + magic sauce**, it follows best practices for
   - `controllers/`
   - `services/`
   - `models/`
-  - `config/`
 - Environment-driven configuration  
 - Extensible microservice template for future Retro services
 
