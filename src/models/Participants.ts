@@ -1,4 +1,5 @@
 import { Column, Entity, ObjectIdColumn, ObjectId, BeforeInsert } from "typeorm";
+import { SessionSettings } from "./SessionSettings";
 
 @Entity()
 export class Participants {
@@ -34,5 +35,8 @@ export class Participants {
 
     @Column()
     public banned?: Boolean;
+
+    @Column()
+    public defaultSessionSettings?: SessionSettings; // How viable is this though, if these guys are non-account users..
 
 }

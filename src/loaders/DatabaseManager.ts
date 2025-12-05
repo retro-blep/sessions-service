@@ -32,7 +32,7 @@ export class DatabaseManager {
         const name = connectionName ?? 'default';
         const ds = this.dataSources.get(name);
         if (!ds) {
-            throw new Error(`DataSource with name "${name}" not found. Did you call DatabaseManager.init()?`);
+            throw new Error(`DataSource with name "${name}" not found. (psst, check that DatabaseManager.init() was run)`);
         }
         return ds;
     }

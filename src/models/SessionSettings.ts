@@ -5,31 +5,30 @@ export class SessionSettings {
     @ObjectIdColumn()
     public _id?: ObjectId | string;
     
-    @Column()
-    durationMinutes?: string;
+    @Column() // To attach the settings to a session? 
+    public sessionId?: string;
+
+    @Column({ default: '0' })
+    public durationMinutes?: string;
+    
 
     // Do we even need a maxParticipants field? 
-    @Column()
-    maxParticipants?: number;
+    @Column({ default: '10'})
+    public maxParticipants?: number;
 
-    @Column()
-    isPasswordProtected?: boolean;
+    @Column({ default: false })
+    public isPasswordProtected?: boolean;
 
     // need to figure out a nicer way to handle passwords securely later
     // something that is more hands off for the user, but still secure
-    @Column()
-    psswd?: any;
+    @Column({ default: null })
+    public psswd?: any;
 
-   @Column()
-   votingEnabled?: boolean;
+    @Column({ default: true }) 
+    public votingEnabled?: boolean;
 
-        
-    @Column()
-    lockedAt?: Date;
 
     @Column()
-    public sessionId?: string;
-
-
+    public lockedAt?: Date;
 }
 

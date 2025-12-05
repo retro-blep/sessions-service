@@ -9,27 +9,27 @@ export class Session {
   public _id?: ObjectId;
 
   @Column()
-  public id!: string; // UUID used in APIs
+  public id!: string;           // UUID used in APIs
 
   @Column({ nullable: true })
-  public roomCode?: string;
+  public roomCode?: string;     // Could be used in a URL to rejoin? Or shared
 
   @Column({ nullable: true })
-  public subName?: string;
+  public subName?: string;      // This could be descriptons, Sprint Goals, whatever. It's just a subheading to the session title
 
   @Column({ nullable: true })
-  public status?: string;
+  public status?: string;       // Locked? Active? Archived? 
 
   @Column({ nullable: true })
-  public columns?: Columns[];
+  public columns?: Columns[];   // Default 3-4, "What went well", "What didn't go well", "Action items", and "Appreciations"
 
   @Column({ nullable: true })
   public settings?: SessionSettings;
 
   @Column()
-  public name!: string;
+  public name?: string;          // Session title, ie. "Team Bravo, Sprint #69"
 
-  @Column()
+@Column({ update: false })
   public createdAt!: Date;
 
   @Column()
@@ -41,6 +41,6 @@ export class Session {
   @Column({ nullable: true })
   public lockedAt?: Date;
 
-  @Column({ nullable: true })
+  @Column({ default: [] })
   public participants?: Participants[];
 }
