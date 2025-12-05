@@ -25,7 +25,6 @@ Built with **Node.js + TypeScript + magic sauce**, it follows best practices for
   - `controllers/`
   - `services/`
   - `models/`
-  - `config/`
 - Environment-driven configuration  
 - Extensible microservice template for future Retro services
 
@@ -36,10 +35,6 @@ Built with **Node.js + TypeScript + magic sauce**, it follows best practices for
 ```
 sessions-service/
 ├─ src/
-│ ├─ config/
-│ │ ├─ env.ts
-│ │ └─ mongo.ts
-│ │ └─ etc...
 │ ├─ controllers/
 │ │ └─ sessionController.ts
 │ │ └─ etc...
@@ -50,6 +45,7 @@ sessions-service/
 │ │ └─ sessionService.ts
 │ ├─ etc...
 │ ├─ logger.ts
+│ ├─ env.ts
 │ └─ index.ts
 ├─ package.json
 ├─ tsconfig.json
