@@ -1,44 +1,15 @@
 import "reflect-metadata";
-import express from "express";
+import http from "http";
 import { Container } from "typedi";
-import { useContainer, useExpressServer } from "routing-controllers";
+import { useContainer } from "routing-controllers";
 import { DataSource } from "typeorm";
-import { SessionController } from "./controllers/SessionController";
-import { HealthController } from "./controllers/HealthController";
+
+import { createApp } from "./app";
 import { env } from "./env";
 import { logger } from "./lib/logger";
 import { initializeDatabase } from "./loaders/dbLoader";
 import { DatabaseManager } from "./loaders/DatabaseManager";
-
-const init = async () => {
-  const log = logger.child({ module: "src/index" });
-  log.info("Initializing application");
-
-
-
-useContainer(Container);
-
-await initializeDatabase();
-
-  // register the initialized DataSource instance in typedi so controllers receive it
-  try {
-    const ds: DataSource = DatabaseManager.getConnection(); // default name
-    Container.set(DataSource, ds);
-    logger.info('📚 Container registration worked! 📚 Connected to MongoDB - yippeeee 📚')
-  } catch (err) {
-    logger.error({ err }, " ❌ Failed to register DataSource in Container ❌ ");
-    throw err;
-  }
-
-const app = express();
-useExpressServer(app, {
-  controllers: [HealthController, SessionController], // explicitly register controllers
-  cors: true,
-  // classTransformer: true, // optional
-});
-const port = process.env.PORT ?? 3000;
-
-
+import { RealtimeHub } from "./lib/RealTimeHub";
 
 process.on("unhandledRejection", (reason: any, promise) => {
   logger.error(
@@ -52,23 +23,43 @@ process.on("uncaughtException", (error: Error) => {
   process.exit(1);
 });
 
-// app.use("/sessions", sessionRoutes);
+async function bootstrap() {
+  const log = logger.child({ module: "src/index" });
+  log.info("Initializing application");
 
-const start = async () => {
+  // routing-controllers/typedi mek shake hands, work together, comrades.
+  useContainer(Container);
 
-  app.listen(env.port, () => {
-    logger.info(`Sessions service listening on port ${env.port}`);
-    console.log(`Sessions service listening on port ${env.port}`);
+  await initializeDatabase();
+
+  try {
+    const ds: DataSource = DatabaseManager.getConnection(); // default name
+    Container.set(DataSource, ds);
+    logger.info("📚 Container registration worked! 📚 Connected to MongoDB - yippeeee 📚");
+  } catch (err) {
+    logger.error({ err }, "❌ Failed to register DataSource in Container ❌");
+    throw err;
+  }
+
+  const app = createApp();
+  const server = http.createServer(app);
+
+  // realtime stuff ! o: 
+  const hub = new RealtimeHub(server);
+  // For when i use hub later
+  // Container.set(RealtimeHub, hub);
+
+  
+  const port = env.port;
+  server.listen(port, () => {
+    logger.info(`Sessions service listening on port ${port}`);
+    console.log(`Sessions service listening on port ${port}`);
+    console.log(`WebSocket endpoint available at ws://localhost:${port}/ws`);
   });
-};
+}
 
-start().catch((err) => {
-  logger.error({ err }, "Failed to start service");
-  process.exit(1);
-});
-};
-
-init().catch((err) => {
-  logger.error({ err }, "Failed to initialize application");
+// Kick everything off
+bootstrap().catch((err) => {
+  logger.error({ err }, "Failed to initialize/start application");
   process.exit(1);
 });

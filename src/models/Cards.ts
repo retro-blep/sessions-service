@@ -3,7 +3,7 @@ import { Column, Entity, ObjectIdColumn, ObjectId } from "typeorm";
 @Entity()
 export class Cards {
     @ObjectIdColumn()
-    public _id?: ObjectId | string;
+    public _id?: ObjectId;
 
     @Column()
     public hidden?: Boolean;
