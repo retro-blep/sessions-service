@@ -19,6 +19,7 @@ export class CardService {
 }
 
   public async createCard(input: any): Promise<Cards | any> {
+    this.log.info(`createCard :: Creating card with sessionId: ${input?.sessionId}`);
     const now = new Date();
     const card: Cards = {
         ...(input as Cards),

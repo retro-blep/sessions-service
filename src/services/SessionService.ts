@@ -20,7 +20,7 @@ export class SessionService {
 
   public async createSession(body: any): Promise<Session | any> {
 
-    // this.log.info(`createSession :: Creating session with name: ${name}`);
+    this.log.info(`createSession :: Creating session with name: ${body?.name}`);
     const now = new Date();
     const session: Session = {
       ...(body as Session),

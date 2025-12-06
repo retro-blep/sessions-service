@@ -10,6 +10,7 @@ import { logger } from "./lib/logger";
 import { initializeDatabase } from "./loaders/dbLoader";
 import { DatabaseManager } from "./loaders/DatabaseManager";
 import { RealtimeHub } from "./lib/RealTimeHub";
+import { CardService } from "./services/CardService";
 
 process.on("unhandledRejection", (reason: any, promise) => {
   logger.error(
@@ -43,9 +44,10 @@ async function bootstrap() {
 
   const app = createApp();
   const server = http.createServer(app);
+  const cardService = Container.get(CardService);
 
   // realtime stuff ! o: 
-  const hub = new RealtimeHub(server);
+  const hub = new RealtimeHub(server, cardService);
   // For when i use hub later
   // Container.set(RealtimeHub, hub);
 
