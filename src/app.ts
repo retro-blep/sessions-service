@@ -7,11 +7,14 @@ export function createApp(): Application {
   const app = express();
 
   app.use(express());
+  app.use(express.urlencoded({ extended: true }));
 
   useExpressServer(app, {
     controllers: [HealthController, SessionController],
-    cors: true,
-    // classTransformer: true // for later stuff 
+    // later: prepare an allowlist/whitelist for cors
+    cors: { origin: [/^https?:\/\/localhost:\d+$/] }, // regex and i have a complicated relationship..
+    validation: { whitelist: true, forbidNonWhitelisted: true },
+    classTransformer: true,
   });
 
   return app;

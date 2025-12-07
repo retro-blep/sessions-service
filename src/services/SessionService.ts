@@ -1,7 +1,6 @@
-import { DataSource, Repository } from 'typeorm';
+import { DataSource, MongoRepository } from 'typeorm';
 import { Service } from 'typedi';
 import { Session } from '../models/Session';
-// import { SessionRepo } from '../repos/SessionRepo';
 import { logger } from '../lib/logger';
 import { prefixedLogger, hashPassword, verifyPassword } from '../lib/Helper';
 import { randomUUID } from 'crypto';
@@ -10,7 +9,7 @@ import { randomUUID } from 'crypto';
 @Service()
 export class SessionService {
   private log = prefixedLogger(logger, "SessionService | ");
-  private sessionRepo;
+  private sessionRepo: MongoRepository<Session>;
 
   constructor(
     private dataSource: DataSource,

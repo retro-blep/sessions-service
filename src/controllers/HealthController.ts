@@ -1,17 +1,15 @@
 import { Request, Response } from "express";
 import * as HTTP_STATUS from 'http-status-codes';
 import { Get, JsonController, UseBefore, Res, HttpCode } from 'routing-controllers';
-import { DataSource, Repository } from 'typeorm';
-import * as bodyParser from "body-parser";
+import { DataSource, MongoRepository } from 'typeorm';
 import { Session } from '../models/Session';
 import { logger } from '../lib/logger';
 import { prefixedLogger } from '../lib/Helper';
 
 @JsonController('/health')
-// @UseBefore(bodyParser.urlencoded({ extended: true }), bodyParser.json())
 export class HealthController {
     private log = prefixedLogger(logger, "HealthController | ");
-    private sessionRepo;
+    private sessionRepo: MongoRepository<Session>;
 
     constructor(
         private dataSource: DataSource,
@@ -55,5 +53,12 @@ export class HealthController {
     public async healthApi(@Res() response: Response): Promise<any | undefined> {
         this.log.info('Request to access health-api');
         return response.status(HTTP_STATUS.OK).send({ status: true });
+    }
+
+    @Get("/readyz")
+    @HttpCode(200) // no h8 on the way they do it, heck i even added it in, just a light ping
+    public async ready(@Res() res: Response) { // to get things ready lol
+        await this.sessionRepo.findOne({ where: {} });
+        return res.send({ ready: true });
     }
 }

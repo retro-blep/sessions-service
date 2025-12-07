@@ -23,6 +23,7 @@ config.ini
 .DS_Store
 Thumbs.db
 mock-data.json
+sessions-service-*
 
 # Exception: don't ignore important.log even if other .log files are ignored
 !important.log

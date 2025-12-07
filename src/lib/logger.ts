@@ -2,6 +2,8 @@ import pino from "pino";
 
 export const logger = pino({
   level: process.env.LOG_LEVEL || "info",
+    redact: { paths: ["req.headers.authorization", "password", "settings.psswd"], remove: true },
+    // ... just in case xd
 });
 
 // type LogLevel = "debug" | "info" | "warn" | "error";

@@ -1,20 +1,16 @@
-import { IsBoolean, IsNumber, IsOptional, IsString, MinLength } from "class-validator";
+import { IsBoolean, IsNotEmpty, IsNumber, IsOptional, IsString, MaxLength, MinLength } from "class-validator";
 
 export class CreateSessionDto {
-  @IsString()
-  @MinLength(1)
+  @IsString() @IsNotEmpty() @MaxLength(80)
   name!: string;
 
-  @IsOptional()
-  @IsString()
+  @IsOptional() @IsString() @MaxLength(80)
   subName?: string;
 
-  @IsOptional()
-  @IsString()
+  @IsOptional() @IsString()
   status?: string;
 
-  @IsOptional()
-  @IsString()
+  @IsOptional() @IsString()
   roomCode?: string;
 
   @IsOptional()

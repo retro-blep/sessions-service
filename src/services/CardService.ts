@@ -1,4 +1,4 @@
-import { DataSource } from "typeorm";
+import { DataSource, MongoRepository } from "typeorm";
 import { Cards } from "../models/Cards";
 import { Service } from "typedi";
 import { prefixedLogger } from "../lib/Helper";
@@ -9,7 +9,7 @@ import { randomUUID } from "crypto";
 @Service()
 export class CardService {
     private log = prefixedLogger(logger, "CardService | ");
-    private cardsRepo;
+    private cardsRepo: MongoRepository<Cards>;
 
   constructor(
     private dataSource: DataSource,

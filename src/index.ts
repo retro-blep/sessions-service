@@ -47,6 +47,7 @@ async function bootstrap() {
   const cardService = Container.get(CardService);
 
   // realtime stuff ! o: 
+  // ... should ratelimiting be introduced? how likely are y'all gonna abuse this? (who am i kidding)
   const hub = new RealtimeHub(server, cardService);
   // For when i use hub later
   // Container.set(RealtimeHub, hub);
