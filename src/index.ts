@@ -28,15 +28,14 @@ async function bootstrap() {
   const log = logger.child({ module: "src/index" });
   log.info("Initializing application");
 
-  // routing-controllers/typedi mek shake hands, work together, comrades.
   useContainer(Container);
 
   await initializeDatabase();
 
   try {
-    const ds: DataSource = DatabaseManager.getConnection(); // default name
+    const ds: DataSource = DatabaseManager.getConnection();
     Container.set(DataSource, ds);
-    logger.info("📚 Container registration worked! 📚 Connected to MongoDB - yippeeee 📚");
+    logger.info("Container registration - Connected to MongoDB - COMPLETE");
   } catch (err) {
     logger.error({ err }, "❌ Failed to register DataSource in Container ❌");
     throw err;
@@ -56,8 +55,7 @@ async function bootstrap() {
   const port = env.port;
   server.listen(port, () => {
     logger.info(`Sessions service listening on port ${port}`);
-    console.log(`Sessions service listening on port ${port}`);
-    console.log(`WebSocket endpoint available at ws://localhost:${port}/ws`);
+    logger.info(`WebSocket endpoint available at ws://localhost:${port}/ws`);
   });
 }
 

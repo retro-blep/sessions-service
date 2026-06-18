@@ -12,7 +12,7 @@ export function createApp(): Application {
   useExpressServer(app, {
     controllers: [HealthController, SessionController],
     // later: prepare an allowlist/whitelist for cors
-    cors: { origin: [/^https?:\/\/localhost:\d+$/] }, // regex and i have a complicated relationship..
+    cors: { origin: [/^https?:\/\/localhost:\d+$/] },
     validation: { whitelist: true, forbidNonWhitelisted: true },
     classTransformer: true,
   });

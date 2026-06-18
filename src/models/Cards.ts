@@ -1,4 +1,4 @@
-import { Column, Entity, ObjectIdColumn, ObjectId } from "typeorm";
+import { Column, UpdateDateColumn, Entity, ObjectIdColumn, ObjectId } from "typeorm";
 
 @Entity()
 export class Cards {
@@ -14,7 +14,7 @@ export class Cards {
     @Column()
     public createdAt?: Date;
 
-    @Column()
+    @UpdateDateColumn()
     public updatedAt?: Date;
 
     @Column()
