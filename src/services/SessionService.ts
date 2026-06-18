@@ -39,7 +39,9 @@ export class SessionService {
 
   public async getSessionById(id: string): Promise<Session | any> {
     this.log.info("getSessionById :: Fetching session with id:", id);
-    return await this.sessionRepo.findOneBy({ id });
+    const session = await this.sessionRepo.find({where: id });
+    this.log.info(`session !!! ${JSON.stringify(session)}`)
+    return session;
   };
 
   public async updateSessionName(id: string, name: string): Promise<Session | any> {
