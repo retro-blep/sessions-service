@@ -41,7 +41,7 @@ export class SessionController {
     @Param('sessionId') sessionId: any,
   ): Promise<any | void> {
     this.log.info("sessionId", JSON.stringify(sessionId));
-    const idNum = sessionId.id;
+    const idNum = sessionId;
     this.log.info(`Retrieving session #${idNum}.`);
     const sessions = await this.sessionService.getSessionById(sessionId);
     return sessions;
@@ -94,7 +94,7 @@ export class SessionController {
   ): Promise<any | void> {
     try {
       // IMPLEMENT THIS THING lolol
-      const cards = sessionId;
+      const cards = await this.cardService.listCardsBySession(sessionId);
       return cards;
     } catch (error: any) {
       this.log.error({ error }, "Error creating session");

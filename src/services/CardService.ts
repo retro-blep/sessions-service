@@ -8,21 +8,21 @@ import { randomUUID } from "crypto";
 
 @Service()
 export class CardService {
-    private log = prefixedLogger(logger, "CardService | ");
-    private cardsRepo: MongoRepository<Cards>;
+  private log = prefixedLogger(logger, "CardService | ");
+  private cardsRepo: MongoRepository<Cards>;
 
   constructor(
     private dataSource: DataSource,
-) {
-    this.cardsRepo =  this.dataSource.getMongoRepository(Cards);
+  ) {
+    this.cardsRepo = this.dataSource.getMongoRepository(Cards);
 
-}
+  }
 
   public async createCard(input: any): Promise<Cards | any> {
     this.log.info(`createCard :: Creating card with sessionId: ${input?.sessionId}`);
     const now = new Date();
     const card: Cards = {
-        ...(input as Cards),
+      ...(input as Cards),
       cardId: `CARD-${randomUUID()}`,
       sessionId: input?.sessionId,
       columnId: input?.columnId,
@@ -41,6 +41,31 @@ export class CardService {
     if (!card) return null;
 
     card.content = text;
+    card.updatedAt = new Date();
+    return this.cardsRepo.save(card);
+  }
+
+  async listCardsBySession(sessionId: string): Promise<Cards[]> {
+    return this.cardsRepo.find({
+      where: { sessionId, hidden: false },
+      order: { createdAt: "ASC" },
+    });
+  }
+
+  async hideCard(cardId: string, sessionId: string): Promise<Cards | null> {
+    const card = await this.cardsRepo.findOne({ where: { cardId, sessionId } });
+    if (!card) return null;
+
+    card.hidden = true;
+    card.updatedAt = new Date();
+    return this.cardsRepo.save(card);
+  }
+
+  async moveCard(cardId: string, sessionId: string, columnId: string): Promise<Cards | null> {
+    const card = await this.cardsRepo.findOne({ where: { cardId, sessionId } });
+    if (!card) return null;
+
+    card.columnId = columnId;
     card.updatedAt = new Date();
     return this.cardsRepo.save(card);
   }
